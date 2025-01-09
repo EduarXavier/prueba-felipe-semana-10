@@ -6,15 +6,24 @@ from elasticsearch import Elasticsearch
 
 app = Flask(__name__)
 
+with open(os.getenv('MONGO_USER_FILE'), 'r') as file:
+    mongo_user = file.read().strip()
+
+with open(os.getenv('MONGO_PASSWORD_FILE'), 'r') as file:
+    mongo_password = file.read().strip()
+
+with open(os.getenv('MONGO_DB_NAME_FILE'), 'r') as file:
+    mongo_db_name = file.read().strip()
+
 # Configuraciones de conexión usando variables de entorno
 mongo_client = MongoClient(
-    host=os.getenv('MONGO_HOST', 'mongodb'),
+    host=os.getenv('MONGO_HOST', 'mongodb.docker'),
     port=int(os.getenv('MONGO_PORT', 27017)),
-    username=os.getenv('MONGO_USER', 'root'),
-    password=os.getenv('MONGO_PASSWORD', 'password')
+    username=mongo_user,
+    password=mongo_password
 )
-mongo_db = mongo_client[os.getenv('MONGO_DB_NAME', 'test_db')]
-redis_client = Redis(host=os.getenv('REDIS_HOST', 'redis'), port=int(os.getenv('REDIS_PORT', 6379)), decode_responses=True)
+mongo_db = mongo_client[mongo_db_name]
+redis_client = Redis(host=os.getenv('REDIS_HOST', 'redis.docker'), port=int(os.getenv('REDIS_PORT', 6379)), decode_responses=True)
 es_client = Elasticsearch([{
     'host': os.getenv('ES_HOST', 'elasticsearch'),
     'port': int(os.getenv('ES_PORT', 9200)),
