@@ -48,7 +48,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    docker service update --image $USER_DOCKEHUB/gopenux-sistemas-formacion:$GIT_TAG_NAME gopenux_backoffice 
+                    docker service update --image $USER_DOCKEHUB/gopenux-sistemas-formacion:$GIT_TAG_NAME gopenux_backoffice
                     '''
                 }
             }
