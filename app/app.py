@@ -8,15 +8,15 @@ app = Flask(__name__)
 
 # Configuraciones de conexión usando variables de entorno
 mongo_client = MongoClient(
-    host=os.getenv('MONGO_HOST', 'localhost'),
+    host=os.getenv('MONGO_HOST', 'mongodb'),
     port=int(os.getenv('MONGO_PORT', 27017)),
     username=os.getenv('MONGO_USER', 'root'),
     password=os.getenv('MONGO_PASSWORD', 'password')
 )
 mongo_db = mongo_client[os.getenv('MONGO_DB_NAME', 'test_db')]
-redis_client = Redis(host=os.getenv('REDIS_HOST', 'localhost'), port=int(os.getenv('REDIS_PORT', 6379)), decode_responses=True)
+redis_client = Redis(host=os.getenv('REDIS_HOST', 'redis'), port=int(os.getenv('REDIS_PORT', 6379)), decode_responses=True)
 es_client = Elasticsearch([{
-    'host': os.getenv('ES_HOST', 'localhost'),
+    'host': os.getenv('ES_HOST', 'elasticsearch'),
     'port': int(os.getenv('ES_PORT', 9200)),
     'scheme': 'http'
 }])
